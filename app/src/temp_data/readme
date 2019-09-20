@@ -1,0 +1,1 @@
+files used to avoid unnecessary calls to API (because of only 50 available calls per day)
