@@ -11,7 +11,9 @@ class App extends Component {
     // hook up mockup data
     recipes: recipes,
     // recipes: [],
-    url: "***REMOVED***"
+    url: "***REMOVED***",
+    details_id: 35382,
+    pageIndex: 1
   }
 
   // ASYNC VERSION
@@ -35,10 +37,9 @@ class App extends Component {
     try {
       fetch(this.state.url)
       .then(resp => {
-        console.log(resp);
         resp.json()
         .then(json => {
-          console.log(json);
+
           this.setState({
             recipes: json.recipes
           })
@@ -50,14 +51,36 @@ class App extends Component {
   }
 
   componentDidMount() {
-    //this.getRecipes();
+    // this.getRecipes();
+  }
+
+  displayPage = (index) => {
+    switch (index) {
+      default:
+      case 1:
+        return (<RecipeList recipes={this.state.recipes} handleDetails={this.handleDetails}/>);
+      case 0:
+        return (<RecipeDetails id={this.state.details_id} handleIndex={this.handleIndex} />)
+    }
+  }
+
+  handleIndex = (index) => {
+    this.setState({
+      pageIndex: index
+    })
+  }
+
+  handleDetails = (index, id) => {
+    this.setState({
+      pageIndex: index,
+      details_id: id
+    })
   }
 
   render() {
     return (
       <React.Fragment>
-        <RecipeList recipes={this.state.recipes}/>
-        <RecipeDetails />
+        {this.displayPage(this.state.pageIndex)}
       </React.Fragment>
     );
   }
