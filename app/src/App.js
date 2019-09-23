@@ -10,42 +10,43 @@ class App extends Component {
   state = {
     // hook up mockup data
     recipes: recipes,
-    // recipes: [],
     url: "***REMOVED***",
     base_url: "***REMOVED***",
     details_id: 35382,
     pageIndex: 1,
     search: "",
-    query: "&q="
+    query: "&q=",
+    error: ""
   }
 
-  // ASYNC VERSION
-  // async getRecipes() {
-  //   try {
-  //     const data = await fetch(this.state.url);
-  //     const jsonData = await data.json();
-  //     const { recipes } = jsonData.recipes;
-  //     this.setState({
-  //       state: recipes
-  //     });
-  //     console.log(this.state.recipes);
-  //     console.log(recipes);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // PROMISES VERSION
   getRecipes() {
     try {
       fetch(this.state.url)
       .then(resp => {
         resp.json()
         .then(json => {
+          if (json.error !== undefined) {
+            if (json.error === "limit") {
+              console.error("the API call limit has been reached")
+              return;
+            } 
+          } 
+          if (json.recipes.length === 0) {
+            this.setState(() => {
+              return {
+                error: "your search didn't return any results."
+              }
+            })
+          }
+          else
+          {
+            this.setState(() => {
+              return {
+                recipes: json.recipes
+              }
+            })
+          }
 
-          this.setState({
-            recipes: json.recipes
-          })
         })
       });
     } catch (error) {
@@ -61,7 +62,7 @@ class App extends Component {
     switch (index) {
       default:
       case 1:
-        return (<RecipeList recipes={this.state.recipes} handleDetails={this.handleDetails} value={this.state.search} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>);
+        return (<RecipeList recipes={this.state.recipes} handleDetails={this.handleDetails} value={this.state.search} handleChange={this.handleChange} handleSubmit={this.handleSubmit} error={this.state.error}/>);
       case 0:
         return (<RecipeDetails id={this.state.details_id} handleIndex={this.handleIndex} />)
     }

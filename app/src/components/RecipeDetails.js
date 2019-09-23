@@ -19,6 +19,12 @@ export default class RecipeDetails extends Component {
                 .then(resp => {
                     resp.json()
                         .then(json => {
+                            if (json.error !== undefined) {
+                                if (json.error === "limit") {
+                                  console.error("the API call limit has been reached")
+                                  return;
+                                } 
+                              } 
                             this.setState({
                                 recipe: json.recipe
                             })
