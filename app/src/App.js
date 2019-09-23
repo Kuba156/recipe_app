@@ -12,8 +12,11 @@ class App extends Component {
     recipes: recipes,
     // recipes: [],
     url: "***REMOVED***",
+    base_url: "***REMOVED***",
     details_id: 35382,
-    pageIndex: 1
+    pageIndex: 1,
+    search: "",
+    query: "&q="
   }
 
   // ASYNC VERSION
@@ -51,14 +54,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.getRecipes();
+    this.getRecipes();
   }
 
   displayPage = (index) => {
     switch (index) {
       default:
       case 1:
-        return (<RecipeList recipes={this.state.recipes} handleDetails={this.handleDetails}/>);
+        return (<RecipeList recipes={this.state.recipes} handleDetails={this.handleDetails} value={this.state.search} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>);
       case 0:
         return (<RecipeDetails id={this.state.details_id} handleIndex={this.handleIndex} />)
     }
@@ -76,6 +79,25 @@ class App extends Component {
       details_id: id
     })
   }
+
+  handleChange = (e) => {
+    this.setState({
+      search: e.target.value
+    });
+  } 
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const {base_url, query, search } = this.state;
+    this.setState(() => {
+      return {
+        url: base_url + query + search,
+        search: ""
+      }
+    }, () => {
+      this.getRecipes();
+    })
+  } 
 
   render() {
     return (
