@@ -42,7 +42,8 @@ class App extends Component {
           {
             this.setState(() => {
               return {
-                recipes: json.recipes
+                recipes: json.recipes,
+                error: ""
               }
             })
           }
