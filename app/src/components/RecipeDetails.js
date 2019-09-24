@@ -10,7 +10,7 @@ export default class RecipeDetails extends Component {
 
         this.state = {
             recipe: recipe,
-            url: config.apiGetKey + this.props.id
+            url: "https://www.food2fork.com/api/get?key=" + config.key + "&rId=" + this.props.id
         }
     }
 

@@ -11,8 +11,8 @@ class App extends Component {
   state = {
     // hook up mockup data
     recipes: recipes,
-    url: config.apiSearchKey,
-    base_url: config.apiSearchKey,
+    url: "https://www.food2fork.com/api/search?key=" + config.key,
+    base_url: "https://www.food2fork.com/api/search?key=" + config.key,
     details_id: 35382,
     pageIndex: 1,
     search: "",
