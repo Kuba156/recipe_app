@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { recipe } from '../temp_data/tempDetails';
+import { config } from '../config';
 
 
 export default class RecipeDetails extends Component {
@@ -9,7 +10,7 @@ export default class RecipeDetails extends Component {
 
         this.state = {
             recipe: recipe,
-            url: '***REMOVED***' + this.props.id
+            url: config.apiGetKey + this.props.id
         }
     }
 

@@ -4,14 +4,15 @@ import './App.css';
 import { recipes } from './temp_data/tempList';
 import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
+import { config } from './config'
 
 class App extends Component {
 
   state = {
     // hook up mockup data
     recipes: recipes,
-    url: "***REMOVED***",
-    base_url: "***REMOVED***",
+    url: config.apiSearchKey,
+    base_url: config.apiSearchKey,
     details_id: 35382,
     pageIndex: 1,
     search: "",
